@@ -19,6 +19,7 @@
         <table id="ner-table" data-test-id="ner-table" class="table table-bordered">
           <thead class="thead-dark">
             <tr>
+              <th>Correlation</th>
               <th>ISBN</th>
               <th>Title</th>
               <th>Author</th>
@@ -29,6 +30,7 @@
 
             {% for book in object_list %}
             <tr>
+                <td>{{ book.book_correlation }}</td>
                 <td>{{ book.isbn }}</td>
                 <td>{{ book.book_title }}</td>
                 <td>{{ book.book_author }}</td>
