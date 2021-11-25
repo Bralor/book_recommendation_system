@@ -1,10 +1,8 @@
 from django.db.models import Q
 from django.views.generic import TemplateView, ListView
 
-import pandas
-
 from .models import Collection
-from recommender.api import run_recommender
+from recommender.books import run_recommender
 
 
 class HomePageView(TemplateView):
@@ -25,7 +23,7 @@ class SearchResultsView(ListView):
 
         result = run_recommender(
             query,
-            pandas.DataFrame(list(object_list.values()))
+            object_list,
         )
 
         return result
