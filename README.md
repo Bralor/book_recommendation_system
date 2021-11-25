@@ -59,14 +59,14 @@ from the obtained source and recommends works according to the evaluations.
 
 ---
 
-+ ready2run,
-+ a lot of `pandas` utilities (but some obsolete),
-- hard-coded solution,
-- no room for:
-    - testing,
-    - documentation (docstrings -> sphinx),
-    - improvements,
-    - upgrades.
++ ✅ ready2run,
++ ✅ a lot of `pandas` utilities (but some obsolete),
+- ❌ hard-coded solution,
+- ❌ no room for:
+    - ❌ testing,
+    - ❌ documentation (docstrings -> sphinx),
+    - ❌ improvements,
+    - ❌ upgrades.
 
 <br>
 
