@@ -47,8 +47,7 @@ from the obtained source and recommends works according to the evaluations.
      ├─df_preprocessor.py  # data preparation module
      ├─df_processor.py     # book_rec.py
      ├─df_utils.py         # some useful utilities
-     ├─test_processor.py
-     ├─test_processor.py
+     ├─test_preprocessor.py
      ├─test_utils.py
      └─data/
 ```
@@ -74,6 +73,78 @@ from the obtained source and recommends works according to the evaluations.
 
 ---
 
+Used pattern: structural design pattern **facade**. See the simple example:
+```python
+class Preprocessor:
+    """Simple preprocessing representation."""
+
+    def is_db_available(self):
+        pass
+
+    def download_data(self):
+        pass
+
+    def extract_data(self):
+        pass
+
+
+class DfProcessor:
+    """Process dataframe operations."""
+
+    def run_recommender(self):
+        pass
+
+
+class ResultParser:
+    """From the given data, return the selected values."""
+
+    def read_data(self):
+        return f"Suggestions {}"
+
+
+class RecommenderFacade:
+    """Represents a facade for various computer parts."""
+
+    def __init__(self):
+        self.prep = Preprocessor()
+        self.proc = DfProcessor()
+        self.reader = ResultParser()
+
+    def start(self):
+        if not self.prep.is_db_available():
+           self.prep.extract_data(
+               self.prep.download_data()
+           )
+
+        self.proc.run_recommender()
+        self.reader.read_data()
+
+
+def main():
+    """
+    >>> recommender = RecommenderFacade()
+    >>> recommender.start()
+    DB already available..
+    Processing..
+    """
+```
+
+<br>
+
+Package structure:
+```
+/root
+  ├─book.py
+  └─book_recommender
+     ├─facade.py
+     ├─processor.py
+     ├─preprocessor.py
+     ├─data_parser.py
+     ├─test_processor.py
+     ├─test_preprocessor.py
+     ├─test_parser.py
+     └─data/
+```
 
 <br>
 
@@ -94,18 +165,13 @@ Install the list of frameworks and packages (using pip):
 $ pip install -r requirements.txt
 ```
 
-Collect the remote data:
-```
-$ ./collector
-> Getting books...
-> Getting ratings...
-> Completed!
-```
-
 Run the localhost:
 ```
 cd books/
 python manage.py runserver
+[INFO] DB is not available ..
+[INFO] Dataset downloading ..
+...
 ```
 
 #### Usage
