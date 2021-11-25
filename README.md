@@ -5,6 +5,8 @@
 It is a web-project that creates a relation database system of book evaluations
 from the obtained source and recommends works according to the evaluations.
 
+<br>
+
 #### Parts of project
 
 ---
@@ -42,9 +44,9 @@ from the obtained source and recommends works according to the evaluations.
 /root
   ├─book.py
   └─book_recommender
-     ├─df_preprocessor.py
-     ├─df_processor.py
-     ├─df_utils.py
+     ├─df_preprocessor.py  # data preparation module
+     ├─df_processor.py     # book_rec.py
+     ├─df_utils.py         # some useful utilities
      ├─test_processor.py
      ├─test_processor.py
      ├─test_utils.py
