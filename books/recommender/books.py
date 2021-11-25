@@ -1,4 +1,5 @@
-from recommender.df_processor import FrameProcessor
+from recommender.book_recommender.df_processor import FrameProcessor
+from recommender.book_recommender.df_preprocessor import Preprocessor
 
 
 def run_recommender(query: str, df) -> list:
@@ -9,6 +10,9 @@ def run_recommender(query: str, df) -> list:
     :df: pandas.data.frame.DataFrame
     :return: list -> [{}, {}, {}]
     """
+    prep = Preprocessor()
+    prep.run_preprocessing()
+
     books = FrameProcessor(query, df)
     return books.start_session()
 
