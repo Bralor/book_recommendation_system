@@ -5,8 +5,6 @@
 It is a web-project that creates a relation database system of book evaluations
 from the obtained source and recommends works according to the evaluations.
 
-<br>
-
 #### Parts of project
 
 ---
