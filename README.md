@@ -42,17 +42,43 @@ from the obtained source and recommends works according to the evaluations.
 
 ```
 /root
-  ├─book.py/
-  | ├─bird_m1.conf
-  | ├─bird_m2.conf
-  | ├─bird_m3.conf
-  | ├─bird_m4.conf
-  | ├─config
-  | ├─data/
-  | └─test-cf-<name_1>.py
-  ├─cf-<name_2>
+  ├─book.py
+  └─book_recommender
+     ├─df_preprocessor.py
+     ├─df_processor.py
+     ├─df_utils.py
+     ├─test_processor.py
+     ├─test_processor.py
+     ├─test_utils.py
+     └─data/
 ```
+
+<br>
+
+##### Pros and cons
+
+---
+
++ ready2run,
++ a lot of `pandas` utilities (but some obsolete),
+- hard-coded solution,
+- no room for:
+    - testing,
+    - documentation (docstrings -> sphinx),
+    - improvements,
+    - upgrades.
+
+<br>
+
+#### Updated solution
+
+---
+
+
+<br>
+
 #### Installation
+
 Clone the repository:
 ```
 $ git clone https://github.com/Bralor/book_recommender_system
