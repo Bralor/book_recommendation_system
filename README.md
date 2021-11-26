@@ -75,30 +75,30 @@ from the obtained source and recommends works according to the evaluations.
 
 Used pattern: structural design pattern **facade**. See the simple example:
 ```python
-class Preprocessor:
-    """Simple preprocessing representation."""
+class DataframePreprocessor:
+    """Check database, prepare it if it is not available."""
 
-    def is_db_available(self):
+    def is_db_available(self, db_name: str) -> bool:
         pass
 
-    def download_data(self):
+    def download_data(self, url: str) -> requests.model.Response:
         pass
 
-    def extract_data(self):
+    def extract_data(self, filename: str) -> zipfile.ZipFile:
         pass
 
 
-class DfProcessor:
-    """Process dataframe operations."""
+class DataframeProcessor:
+    """Process dataframe operations with specific users and ratings."""
 
-    def run_recommender(self):
+    def run_recommender(self, df) -> pandas.core.frame.DataFrame:
         pass
 
 
 class ResultParser:
     """From the given data, return the selected values."""
 
-    def read_data(self):
+    def read_data(self, df) -> list:
         return f"Suggestions {}"
 
 
@@ -124,10 +124,70 @@ def main():
     """
     >>> recommender = RecommenderFacade()
     >>> recommender.start()
-    DB already available..
-    Processing..
+    [INFO] DB already available..
+    [INFO] Processing..
     """
 ```
+
+<br>
+
+Better solution of module `book_rec.py`:
+```python
+def load_dataframe_with_lowercase(name: str) -> pandas.core.frame.DataFrame:
+    """Load dataframe from .csv file as a lowecase strings."""
+    return pandas.read_csv(
+        name,
+        encoding="cp1251",
+        sep=";",
+        on_bad_lines="skip",
+        index_col=False,
+        dtype='unicode'
+    ).apply(lambda x: x.astype(str).str.lower())
+
+
+def merge_two_dfs(
+    df1: pandas.core.frame.DataFrame,
+    df2: pandas.core.frame.DataFrame,
+    key: str ="ISBN"):
+    return pandas.merge(df1, df2, on=[key])
+
+
+def select_all_readers_of_one_author_and_book(
+      title: str,
+      author: str,
+      col: pandas.core.frame.DataFrame
+   ) -> pandas.core.frame.DataFrame:
+
+    return col["User-ID"][
+        (col["Book-Title"] == title)
+        & filter_dataframe(col, "Book-Author", author)
+    ]
+
+
+def filter_dataframe(col: pandas.core.frame.DataFrame, key: str, val: str):
+    return col[key].str.contains(val)
+
+
+def all_books_from_readers(col, key, filtered):
+    return col[col[key].isin(filtered)]
+
+
+def sum_of_ratings_of_each_book(other_books, column):
+    return other_books.groupby([column]).agg("count").reset_index()
+
+
+def filter_titles_with_threshold(sum_ratings, title, threshold):
+    return sum_ratings[title][sum_ratings["User-ID"] >= threshold].tolist()
+
+
+def create_new_dataframe_from_values(col, columns, filtered):
+    return col[columns][col["Book-Title"].isin(filtered)]
+
+
+def calculate_the_mean_val(new_df, vals, key):
+    return new_df.groupby(vals)[key].mean().to_frame().reset_index()
+```
+Short but useful functions can provide a testable solution.
 
 <br>
 
@@ -140,16 +200,16 @@ Package structure:
      ├─processor.py
      ├─preprocessor.py
      ├─data_parser.py
-     ├─test_processor.py
-     ├─test_preprocessor.py
-     ├─test_parser.py
-     └─data/
+     ├─data/
+     └─tests/
+        ├─test_preprocessor.py
+        ├─test_processor.py
+        └─test_parser.py
 ```
 
 <br>
 
 #### Installation
-
 Clone the repository:
 ```
 $ git clone https://github.com/Bralor/book_recommender_system
@@ -160,7 +220,7 @@ Create a virtual enviroment:
 $ python -m venv env
 ```
 
-Install the list of frameworks and packages (using pip):
+Install the given list of frameworks and packages (using pip):
 ```
 $ pip install -r requirements.txt
 ```
@@ -177,7 +237,8 @@ python manage.py runserver
 #### Usage
 Write the name of the book you like:
 ```
-"harry potter and the sorcerer's stone (book 1)"
+harry potter and the sorcerer's stone (book 1)
+the fellowship of the ring (the lord of the rings, part 1)
 ...
 ```
 
