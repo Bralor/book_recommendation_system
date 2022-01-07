@@ -7,7 +7,7 @@ class FrameProcessor:
     Run the recommendation process (original python script slightly modified).
     """
 
-    def __init__(self, expression, dataframe):
+    def __init__(self, expression: str, dataframe):
         self.expression = expression
         self.dataframe = pd.DataFrame(list(dataframe.values()))
 
@@ -15,7 +15,7 @@ class FrameProcessor:
         dataset_lowercase = self.dataframe
         dataset_lowercase['book_rating'] = dataset_lowercase[
             'book_rating'].astype(int)          # use correct datatype
-        dataset_lowercase = dataset_lowercase[  # do not read NaN values
+        dataset_lowercase = dataset_lowercase[  # do not read ratings with values 0
             dataset_lowercase['book_rating'] != 0
         ]
 
