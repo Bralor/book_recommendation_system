@@ -3,6 +3,7 @@ from django.views.generic import TemplateView, ListView
 
 from .models import Collection
 from recommender.books import run_recommender
+from recommender.book_recommender.df_preprocessor import Preprocessor
 
 
 class HomePageView(TemplateView):
@@ -12,6 +13,9 @@ class HomePageView(TemplateView):
 class SearchResultsView(ListView):
     model = Collection
     template_name: str = "search_results.html"
+
+    prep = Preprocessor()
+    prep.run_preprocessing()
 
     def get_queryset(self):
         """
@@ -27,3 +31,4 @@ class SearchResultsView(ListView):
         )
 
         return result
+
